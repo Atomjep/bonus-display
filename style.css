@@ -76,6 +76,14 @@ h1 {
     white-space: nowrap; /* 金額が折り返さないように */
 }
 
+.yen-symbol {
+    font-family: "MS Mincho", "HGMinchoE", "Hiragino Mincho ProN", serif;
+    font-size: 80px;
+    font-weight: bold;
+    color: #161403;
+    text-shadow: 3px 3px 0px #000000;
+}
+
 .rolling-digit {
     font-family: monospace;
     animation: blink 0.1s infinite;
