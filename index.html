@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>今年のボーナス金額発表</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="input-screen">
+        <h1>今年のボーナス金額発表</h1>
+        <div class="panel">
+            <input type="number" id="price-input" placeholder="金額を入力">
+            <button id="start-button">完了</button>
+        </div>
+    </div>
+
+    <div id="result-screen" class="hidden">
+        <div class="cat-image-container">
+            <img id="cat-image" src="cat.png" alt="巨大な猫">
+        </div>
+        <div class="screen">
+            <div id="price-display-container" class="price-display-container">
+                <p id="price-display" class="price"></p>
+            </div>
+        </div>
+        <div class="panel">
+            <button id="reset-button">もう一度</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

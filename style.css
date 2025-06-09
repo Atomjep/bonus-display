@@ -1,0 +1,93 @@
+/* 全体のスタイル */
+body {
+    background-color: #333;
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+    padding-top: 50px;
+    position: relative; /* 相対位置指定：result-screen内の絶対位置要素の基準 */
+}
+
+h1 {
+    margin-bottom: 30px;
+}
+
+.panel {
+    margin-top: 20px;
+}
+
+/* 画面を隠すためのクラス */
+.hidden {
+    display: none;
+}
+
+/* 猫画像のコンテナ */
+.cat-image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative; /* 追加：.screen の absolute 配置の基準にする */
+}
+
+#cat-image {
+    max-width: 80%;
+    height: auto;
+}
+
+/* 金額表示スクリーンのスタイル */
+.screen {
+    background-color: rgb(255, 38, 0);
+    width: 80%;
+    max-width: 800px;
+    height: 150px;
+    border: 5px solid #555;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    position: absolute;      /* 変更: absolute にして画像に重ねる */
+    top: 75%;                /* 親要素（猫画像）の縦中央に配置 */
+    left: 50%;               /* 横中央 */
+    transform: translate(-50%, -50%);  /* 中央寄せ補正 */
+    z-index: 2;              /* 猫画像より上に表示 */
+}
+
+/* 金額表示コンテナ（猫画像を重ねるための層） */
+.price-display-container {
+    position: relative;
+    z-index: 2; /* 猫画像より手前に表示 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* 金額表示のスタイル */
+.price {
+    font-family: "MS Mincho", "HGMinchoE", "Hiragino Mincho ProN", serif;
+    font-size: 80px;
+    font-weight: bold;
+    color: #161403;
+    text-shadow: 3px 3px 0px #000000;
+    white-space: nowrap; /* 金額が折り返さないように */
+}
+
+.rolling-digit {
+    font-family: monospace;
+    animation: blink 0.1s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0.8; }
+}
+
+/* ボタンのスタイル */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
