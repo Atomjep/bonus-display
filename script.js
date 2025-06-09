@@ -1,32 +1,37 @@
 // --- HTML要素の取得 ---
 const inputScreen = document.getElementById('input-screen');
 const resultScreen = document.getElementById('result-screen');
-const startButton = document.getElementById('start-button');
+const doneButton = document.getElementById('done-button');
 const resetButton = document.getElementById('reset-button');
 const priceInput = document.getElementById('price-input');
 const priceDisplay = document.getElementById('price-display');
+const startButton = document.getElementById('start-button');
 
 // --- 設定値 ---
 const REVEAL_DELAY = 1000; // 1桁ずつ確定するまでの時間（ミリ秒）
 const ROLLING_DURATION = 500; // 高速切り替えの時間（ミリ秒）
 
+
+let currentPrice = ''; // 最新の価格を保持する変数
+
 // --- 「開始」ボタンの処理 ---
-startButton.addEventListener('click', () => {
+doneButton.addEventListener('click', () => {
     const price = priceInput.value;
     if (!price || isNaN(Number(price)) || Number(price) <= 0) {
         alert('入力してください。');
         return;
     }
 
+    currentPrice = price; // 値を保存
+
     // 画面を切り替え
     inputScreen.classList.add('hidden');
     resultScreen.classList.remove('hidden');
 
-    // 鑑定アニメーションを開始
-    runAnimation(price);
+    // runAnimation(price); ←これは不要ならコメントのままでOK
 });
 
-// --- 「もう一度鑑定する」ボタンの処理 ---
+// --- 「もう一度」ボタンの処理 ---
 resetButton.addEventListener('click', () => {
     // 画面を切り替え
     resultScreen.classList.add('hidden');
@@ -35,6 +40,16 @@ resetButton.addEventListener('click', () => {
     // 入力欄と表示をクリア
     priceInput.value = '';
     priceDisplay.textContent = '';
+});
+
+// --- 「開始」ボタンの処理 ---
+startButton.addEventListener('click', () => {
+    if (!currentPrice) {
+        alert('金額が入力されていません。');
+        return;
+    }
+
+    runAnimation(currentPrice);
 });
 
 
@@ -127,10 +142,11 @@ async function runAnimation(price) {
         }
     }
 
-    // "円" を追加
-    const yenSpan = document.createElement('span');
-    yenSpan.textContent = '円';
-    priceDisplay.appendChild(yenSpan);
+    // "¥" を追加（先頭）
+    const yenSymbolSpan = document.createElement('span');
+    yenSymbolSpan.classList.add('yen-symbol');
+    yenSymbolSpan.textContent = '¥';
+    priceDisplay.insertBefore(yenSymbolSpan, priceDisplay.firstChild);
 
     resetButton.disabled = false;
 }
