@@ -13,27 +13,24 @@ const ROLLING_DURATION = 500; // 高速切り替えの時間（ミリ秒）
 
 
 let currentPrice = ''; // 最新の価格を保持する変数
-let selectedCurrency = 'JPY'; // ★変更点: 選択された通貨を保持する変数（デフォルトは円）
+let currentCurrency = 'JPY'; //最新の通貨を保持する変数（初期値は 'JPY'）
 
-// --- 「実行」ボタンの処理 ---
+// --- 「開始」ボタンの処理 ---
 doneButton.addEventListener('click', () => {
     const price = priceInput.value;
     if (!price || isNaN(Number(price)) || Number(price) <= 0) {
-        alert('数値を入力してください。');
+        alert('入力してください。');
         return;
     }
 
     currentPrice = price; // 値を保存
-
-    // ★変更点: 選択されている通貨を取得して保存
-    const currencyChoice = document.querySelector('input[name="currency"]:checked');
-    if (currencyChoice) {
-        selectedCurrency = currencyChoice.value;
-    }
+    currentCurrency = document.querySelector('input[name="currency"]:checked').value;
 
     // 画面を切り替え
     inputScreen.classList.add('hidden');
     resultScreen.classList.remove('hidden');
+
+    // runAnimation(price); ←これは不要ならコメントのままでOK
 });
 
 // --- 「もう一度」ボタンの処理 ---
@@ -66,17 +63,9 @@ async function runAnimation(price) {
     resetButton.disabled = true;
     priceDisplay.textContent = '';
 
-    // ★変更点: 通貨ごとの設定を定義
-    const currencySettings = {
-        'JPY': { symbol: '¥', locale: 'ja-JP' },
-        'USD': { symbol: '$', locale: 'en-US' }
-    };
-    const currentSetting = currencySettings[selectedCurrency];
-
-    // toLocaleStringは直接画面表示には使いませんが、内部処理の参考に残します
-    const formattedPrice = Number(price).toLocaleString(currentSetting.locale, {
+    const formattedPrice = Number(price).toLocaleString('ja-JP', {
         style: 'currency',
-        currency: selectedCurrency,
+        currency: 'JPY',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
     });
@@ -155,10 +144,15 @@ async function runAnimation(price) {
         }
     }
 
-    // ★変更点: 選択された通貨の記号を追加（先頭）
+    // 通貨記号を先頭に追加（ドルと円を切り替え）
     const symbolSpan = document.createElement('span');
-    symbolSpan.classList.add('currency-symbol'); // 汎用的なクラス名に変更
-    symbolSpan.textContent = currentSetting.symbol; // JPYなら'¥', USDなら'$'
+    symbolSpan.classList.add('currency-symbol'); // クラス名を汎用的に変更
+    
+    if (currentCurrency === 'USD') {
+        symbolSpan.textContent = '$';
+    } else {
+        symbolSpan.textContent = '¥';
+    }
     priceDisplay.insertBefore(symbolSpan, priceDisplay.firstChild);
 
     resetButton.disabled = false;
